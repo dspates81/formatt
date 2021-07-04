@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-echo "-------------------------------------------------"
-echo "Setting up mirrors for optimal download - US Only"
-echo "-------------------------------------------------"
-timedatectl set-ntp true
-pacman -S --noconfirm pacman-contrib
-
-
 
 echo -e "\nInstalling prereqs...\n$HR"
 pacman -S --noconfirm gptfdisk btrfs-progs
@@ -61,6 +54,11 @@ arch-chroot /mnt
 
 arch-chroot /mnt
 
+
+printf "\e[1;32mInstaller.\e[0m"
+
 git clone https://github.com/dspates81/ArchInst.git
 
-#./ArchInst/Arch_Installation.sh
+
+
+./ArchInst/Arch_Installation.sh
