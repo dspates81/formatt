@@ -55,4 +55,4 @@ arch-chroot /mnt
 
 git clone https://github.com/dspates81/ArchInst.git
 
-#./ArchInst/Arch_Installation.sh
+./ArchInst/Arch_Installation.sh
