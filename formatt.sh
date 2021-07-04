@@ -30,7 +30,6 @@ sgdisk -a ${DISK} # new gpt disk 2048 alignment
 sgdisk -n 1:0:+5000M ${DISK} # partition 1 (UEFI SYS), default start block, 5GB
 sgdisk -n 2:0:+195000M ${DISK} # partition 2 (Root), default start block, 195GB
 
-
 # set partition types
 sgdisk -t 1:ef00 ${DISK}
 sgdisk -t 2:8300 ${DISK}
@@ -39,7 +38,6 @@ sgdisk -t 2:8300 ${DISK}
 sgdisk -c 1:"UEFISYS" ${DISK}
 sgdisk -c 2:"ROOT" ${DISK}
 
-
 # make filesystems
 echo -e "\nCreating Filesystems...\n$HR"
 
@@ -47,12 +45,19 @@ mkfs.vfat -F32 -n "UEFISYS" "${DISK}1"
 mkfs.ext4 -L "ROOT" "${DISK}2"
 
 # mount target
-
+mkdir /mnt
 mount -t ext4 "${DISK}2" /mnt
-mkdir -p /dev/"${DISK}1" /mnt/boot/efi
+mkdir /mnt/boot
+mkdir /mnt/boot/efi
+mount -t vfat "${DISK}1" /mnt/boot/
 
-pacstrap /base linux linux-firmware nano sudo man git 
-gensfstab -U /mnt >> /mnt/etc/fstab
+
+echo "--------------------------------------"
+echo "-- Arch Install on Main Drive       --"
+echo "--------------------------------------"
+pacstrap /mnt base base-devel linux linux-firmware git nano sudo --noconfirm --needed
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
 
 arch-chroot /mnt
 
