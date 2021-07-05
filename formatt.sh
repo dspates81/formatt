@@ -52,8 +52,3 @@ echo "--------------------------------------"
 pacstrap /mnt base base-devel linux linux-firmware nano sudo git --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
-
-
-git clone https://github.com/dspates81/ArchInst
-
-./ArchInst/Arch_Installation.sh
