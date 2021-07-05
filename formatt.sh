@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
 
-echo "-------------------------------------------------"
-echo "Setting up mirrors for optimal download - US Only"
-echo "-------------------------------------------------"
-timedatectl set-ntp true
-pacman -S --noconfirm pacman-contrib
-
-
-
 echo -e "\nInstalling prereqs...\n$HR"
-pacman -S --noconfirm gptfdisk btrfs-progs
+pacman -S --noconfirm gptfdisk 
 
 echo "-------------------------------------------------"
 echo "-------select your disk to format----------------"
@@ -27,8 +19,8 @@ sgdisk -a ${DISK} # new gpt disk 2048 alignment
 
 
 # create partitions
-sgdisk -n 1:0:+3000M ${DISK} # partition 1 (UEFI SYS), default start block, 3GB
-sgdisk -n 2:0:+50000M ${DISK} # partition 2 (Root), default start block, 50GB
+sgdisk -n 1:0:+5000M ${DISK} # partition 1 (UEFI SYS), default start block, 5GB
+sgdisk -n 2:0:+195000M ${DISK} # partition 2 (Root), default start block, 195GB
 
 
 # set partition types
@@ -47,11 +39,21 @@ mkfs.vfat -F32 -n "UEFISYS" "${DISK}1"
 mkfs.ext4 -L "ROOT" "${DISK}2"
 
 # mount target
-
+mkdir /mnt
 mount -t ext4 "${DISK}2" /mnt
-mkdir -p /dev/"${DISK}1" /mnt/boot/efi
+mkdir /mnt/boot
+mkdir /mnt/boot/efi
+mount -t vfat "${DISK}1" /mnt/boot/
 
 
-./Arch_Installation.sh
-# formatt
-# formatt
+echo "--------------------------------------"
+echo "-- Arch Install on Main Drive       --"
+echo "--------------------------------------"
+pacstrap /mnt base base-devel linux linux-firmware nano sudo git --noconfirm --needed
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+
+
+git clone https://github.com/dspates81/ArchInst
+
+./ArchInst/Arch_Installation.sh
