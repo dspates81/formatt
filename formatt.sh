@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo -e "\nInstalling prereqs...\n$HR"
-pacman -S --noconfirm gptfdisk 
+pacman -Sy gptfdisk 
 
 echo "-------------------------------------------------"
 echo "-------select your disk to format----------------"
@@ -44,11 +44,3 @@ mount -t ext4 "${DISK}2" /mnt
 mkdir /mnt/boot
 mkdir /mnt/boot/efi
 mount -t vfat "${DISK}1" /mnt/boot/
-
-
-echo "--------------------------------------"
-echo "-- Arch Install on Main Drive       --"
-echo "--------------------------------------"
-pacstrap /mnt base linux linux-firmware nano sudo git
-genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
