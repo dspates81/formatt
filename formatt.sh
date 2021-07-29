@@ -20,7 +20,7 @@ sgdisk -a ${DISK} # new gpt disk 2048 alignment
 
 # create partitions
 sgdisk -n 1:0:+5000M ${DISK} # partition 1 (UEFI SYS), default start block, 5GB
-sgdisk -n 2:0:+100000M ${DISK} # partition 2 (Root), default start block, 100GB
+sgdisk -n 2:0:+80000M ${DISK} # partition 2 (Root), default start block, 80GB
 
 
 # set partition types
