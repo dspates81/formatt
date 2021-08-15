@@ -44,4 +44,4 @@ mkfs.ext4 -L "ROOT" "${DISK}2"
 #mount -t "${DISK}1" /mnt/boot/efi
 #mount -t vfat "${DISK}1" /mnt/boot/efi
 
-#./formatt/pacstrap.sh 
+
