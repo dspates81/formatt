@@ -44,4 +44,4 @@ mkdir - p /mnt/boot/efi
 mount "${DISK}1" /mnt/boot/efi
 #mount -t vfat "${DISK}1" /mnt/boot/efi
 
-./formatt/pacstrap.sh 
+#./formatt/pacstrap.sh 
